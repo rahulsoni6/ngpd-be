@@ -140,7 +140,7 @@ const combinedFileFilter = (
   file: Express.Multer.File,
   cb: multer.FileFilterCallback
 ) => {
-  if (file.fieldname === 'featuredImage') {
+  if (file.fieldname === 'image') {
     imageFileFilter(req, file, cb);
   } else if (file.fieldname === 'documents') {
     documentFileFilter(req, file, cb);
@@ -149,7 +149,7 @@ const combinedFileFilter = (
   }
 };
 
-export const uploadPressRelease = multer({ storage: combinedStorage as any, fileFilter: combinedFileFilter });
+// export const uploadPressRelease = multer({ storage: combinedStorage as any, fileFilter: combinedFileFilter });
 
 export const upload = {
   image: uploadImage,

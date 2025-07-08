@@ -1,25 +1,37 @@
-import mongoose, { Document, Schema } from 'mongoose';
+import mongoose, { Document, Schema } from 'mongoose'
 
-export interface IPressRelease extends Document {
-  title: string;
-  tags: string[];
-  content: string;
-  metaTitle: string;
-  metaDescription: string;
-  featuredImage: string;
-  documents: string[]; 
+export enum PressReleaseCategory {
+  Market = 'market',
+  Latest = 'latest',
 }
 
-const PressReleaseSchema: Schema = new Schema({
-  title: { type: String, required: true },
-  tags: { type: [String], default: [] },
-  content: { type: String, required: true },
-  metaTitle: { type: String },
-  metaDescription: { type: String },
-  featuredImage: { type: String },
-  documents: { type: [String], default: [] }, 
-}, {
-  timestamps: true, 
-});
+export interface IPressRelease extends Document {
+  title: string
+  tags: string[]
+  content: string
+  metaTitle: string
+  metaDescription: string
+  featuredImage: string
+  documents: string[]
+  category: PressReleaseCategory
+}
 
-export default mongoose.model<IPressRelease>('PressRelease', PressReleaseSchema);
+const PressReleaseSchema: Schema = new Schema(
+  {
+    title: { type: String, required: true },
+    tags: { type: [String], default: [] },
+    content: { type: String, required: true },
+    category: {
+      type: String,
+      enum: Object.values(PressReleaseCategory),
+      // default: PressReleaseCategory.Latest,
+    },
+    isFeaturedArticle: { type: Boolean, default: false },
+    image: { type: String },
+  },
+  {
+    timestamps: true,
+  }
+)
+
+export default mongoose.model<IPressRelease>('PressRelease', PressReleaseSchema)
