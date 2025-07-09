@@ -103,7 +103,7 @@ export const updatePressRelease = async (
     // Use S3 image URL if uploaded, else fallback to body
     const file = req.file as S3File | undefined
     if (file?.location) {
-      updateData.featuredImage = file.location
+      updateData.image = file.location
     }
 
     // Handle document uploads (multiple files)
@@ -117,9 +117,9 @@ export const updatePressRelease = async (
     } else if (files && files['documents']) {
       documentUrls = files['documents'].map((f) => f.location || f.filename)
     }
-    if (documentUrls.length > 0) {
-      updateData.documents = documentUrls
-    }
+    // if (documentUrls.length > 0) {
+    //   updateData.documents = documentUrls
+    // }
 
     const updatedPost = await PressRelease.findByIdAndUpdate(id, updateData, {
       new: true,
